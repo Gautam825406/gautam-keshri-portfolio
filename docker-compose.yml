@@ -1,0 +1,21 @@
+services:
+  api:
+    build: ./backend
+    environment:
+      # CHANGE THIS before deploying anywhere public.
+      ADMIN_KEY: ${ADMIN_KEY:-change-me}
+      DATABASE_URL: sqlite:///./portfolio.db
+    volumes:
+      - portfolio-data:/app
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
+
+volumes:
+  portfolio-data:
